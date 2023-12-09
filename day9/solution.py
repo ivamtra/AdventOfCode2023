@@ -62,5 +62,10 @@ with open(file_path, 'r') as file:
 
 histories = [list(map(int, line.split())) for line in lines]
 
-# Answer
+
+# Answer part 1
 print(sum(map(extrapolate_next, histories)))
+
+
+# Answer part 2
+print(sum(map(extrapolate_next, map(lambda x: list(reversed(x)),histories))))
