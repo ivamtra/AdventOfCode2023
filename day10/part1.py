@@ -10,7 +10,6 @@ filename = "./day10/input.txt"  # Replace with the actual filename
 with open(filename, 'r') as file:
     matrix = [list(line.strip()) for line in file]
 
-print(matrix)
 
 def find_S(matrix : List[List[chr]]) -> Tuple[int, int]:
     for i, row in enumerate(matrix):
@@ -28,6 +27,7 @@ directions = {'U', 'D', 'L', 'R'}
 (start_i, start_j) = find_S(matrix)
 
 M = {}
+
 def traverse(i, j, previous_direction, depth=0):
     char = matrix[i][j]
     if char == '.':
@@ -98,10 +98,41 @@ def traverse(i, j, previous_direction, depth=0):
 traverse(start_i, start_j, '0')
 
 
+# Part 2
+
+enclosed = []
+def count_enclosed(matrix) -> int:
+    count = 0
+    for i, row in enumerate(matrix):
+        for j, tile in enumerate(row):
+            # Ray casting algorithm
+
+            # If (i,j) not in main loop
+            if (i,j) not in M and j != 0:
+                intersections_count = 0
+                # check number of intersections with main loop by
+                # checking upwards
+                for x in range(j):
+                    if (i,x) in M and (M[(i,x)] == '|' or M[(i,x)] == 'J' or M[(i,x)] == 'L'):
+                        intersections_count += 1
+                
+                if intersections_count % 2 == 1:
+                    print(i,j)
+                    print(tile)
+                    print()
+                    count +=1 
+    return count
+
+count = count_enclosed(matrix)
+print(f"count,", count)
+
+# 18 punktar
 """
-7-F7-
-.FJ|7
-SJLL7
-|F--J
-LJ.LJ
+...........
+.F--S---7..
+.|......|..
+.|......|..
+.|......|..
+.L------J..
+...........
 """
