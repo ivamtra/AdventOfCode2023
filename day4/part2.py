@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 # Initialize an empty dictionary to store the results
 card_dict = {}
 
@@ -16,13 +18,26 @@ with open('./day4/input.txt', 'r') as file:
         # Store the lists in the dictionary with the card index as the key
         card_dict[card_index] = (winning_numbers, your_numbers)
 
+# print(card_dict)
 
-print(card_dict[1])
-scores = []
+count = [0]
+def count_cards(key: int):
 
-for (winning_numbers, your_numbers)in card_dict.values():
-    numbers_won = list(filter(lambda x: x in winning_numbers, your_numbers))
-    score = int(2**(len(numbers_won)-1))
-    scores.append(score)
+    if key not in card_dict:
+        return
+    
+    count[0] += 1
+    
+    card = card_dict[key]
+    print(key)
+    (winning_numbers, your_numbers) = card
+    cards_won = len(list(filter(lambda x: x in winning_numbers, your_numbers)))
+    for i in range(cards_won):
+        count_cards(key + (i+1))
+    pass
 
-print(sum(scores))
+
+for index in card_dict.keys():
+    count_cards(index)
+
+print(count)
